@@ -1,0 +1,25 @@
+package io.github.mahdibohloul.spring.reactor.kafka.consumer.validators
+
+import box.tapsi.libs.utilities.validator.Validator
+import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaConsumerException
+import java.lang.reflect.Method
+import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
+
+@Component(ListenerMethodParameterSizeValidator.BEAN_NAME)
+class ListenerMethodParameterSizeValidator : Validator<Method> {
+  override fun validate(input: Method): Mono<Void> = input.toMono()
+    .handle { method, sink ->
+      if (method.parameterCount == 2) {
+        return@handle sink.complete()
+      }
+      return@handle sink.error(
+        KafkaConsumerException.KafkaConsumerInitializationException.fromIncompatibleParameterSize(),
+      )
+    }
+
+  companion object {
+    const val BEAN_NAME = "listenerMethodParameterSizeValidator"
+  }
+}
