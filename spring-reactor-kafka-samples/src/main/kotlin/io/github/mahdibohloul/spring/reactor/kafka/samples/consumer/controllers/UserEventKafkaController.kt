@@ -10,6 +10,7 @@ import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.models.UserE
 import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.models.UserEventType
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
 import reactor.kafka.receiver.KafkaReceiver
 import reactor.kafka.receiver.ReceiverRecord
 
@@ -32,7 +33,7 @@ class UserEventKafkaController {
     logger.info("Starting UserEvent consumer with configuration: ${config.name}")
     
     return receiver.receive()
-      .publishOn(config.scheduler)
+      .publishOn(Schedulers.boundedElastic())
       .doOnNext { record ->
         logger.info("Received UserEvent: partition=${record.partition()}, offset=${record.offset()}, key=${record.key()}")
         processUserEvent(record)

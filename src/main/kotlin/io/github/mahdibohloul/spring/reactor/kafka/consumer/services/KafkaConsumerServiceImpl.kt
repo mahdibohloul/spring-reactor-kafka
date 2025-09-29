@@ -63,14 +63,13 @@ class KafkaConsumerServiceImpl(
   ) {
     Mono.defer {
       method.invoke(bean, kafkaReceiver, configuration) as Mono<Void>
-    }.subscribeOn(configuration.scheduler)
-      .doOnSubscribe {
-        logger.info("Invoking listener method \"${method.name}\"")
-      }.subscribe({}, {
-        logger.error("Error while invoking method \"${method.name}\"", it)
-      }, {
-        logger.info("Listener \"${method.name}\" invoked with success")
-      })
+    }.doOnSubscribe {
+      logger.info("Invoking listener method \"${method.name}\"")
+    }.subscribe({}, {
+      logger.error("Error while invoking method \"${method.name}\"", it)
+    }, {
+      logger.info("Listener \"${method.name}\" invoked with success")
+    })
   }
 
   private fun getConfigProvider(method: Method): KafkaReceiverConfigurationProvider<*, *> {

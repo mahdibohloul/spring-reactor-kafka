@@ -14,11 +14,9 @@ import reactor.kafka.receiver.ReceiverOptions
  * @param TValue The type parameter for the Kafka message value
  * @property receiverOption The receiver options that define subscription topics,
  *                          deserializers, consumer properties, and other configurations
- * @property scheduler The Reactor Scheduler instance to control execution context for the receiver
  * @property name The name of the Kafka receiver instance, allowing for identification in multi-receiver setups
  */
 data class KafkaReceiverConfiguration<TKey : Any, TValue : Any>(
   val receiverOption: ReceiverOptions<TKey, TValue>,
-  val scheduler: Scheduler,
   val name: String,
 )
