@@ -20,9 +20,6 @@ import reactor.kafka.receiver.ReceiverRecord
 class OrderEventKafkaController {
 
   private val logger = LoggerFactory.getLogger(OrderEventKafkaController::class.java)
-  private val objectMapper = ObjectMapper().apply {
-    registerModule(JavaTimeModule())
-  }
 
   @ReactiveKafkaListener(configurationProvider = OrderEventKafkaConfigProvider::class)
   fun handleOrderEvents(

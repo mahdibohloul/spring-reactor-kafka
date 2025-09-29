@@ -21,9 +21,6 @@ import reactor.kafka.receiver.ReceiverRecord
 class UserEventKafkaController {
 
   private val logger = LoggerFactory.getLogger(UserEventKafkaController::class.java)
-  private val objectMapper = ObjectMapper().apply {
-    registerModule(JavaTimeModule())
-  }
 
   @ReactiveKafkaListener(configurationProvider = UserEventKafkaConfigProvider::class)
   fun handleUserEvents(
