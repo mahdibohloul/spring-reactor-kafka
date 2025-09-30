@@ -57,7 +57,6 @@ class UserEventKafkaConfigProvider(
     return Mono.just(
       KafkaReceiverConfiguration(
         receiverOption = receiverOptions,
-        scheduler = Schedulers.boundedElastic(),
         name = "user-events-receiver"
       )
     )

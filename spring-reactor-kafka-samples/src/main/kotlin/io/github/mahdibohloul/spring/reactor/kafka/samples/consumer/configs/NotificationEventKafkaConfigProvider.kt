@@ -57,7 +57,6 @@ class NotificationEventKafkaConfigProvider(
     return Mono.just(
       KafkaReceiverConfiguration(
         receiverOption = receiverOptions,
-        scheduler = Schedulers.boundedElastic(),
         name = "notification-events-receiver"
       )
     )

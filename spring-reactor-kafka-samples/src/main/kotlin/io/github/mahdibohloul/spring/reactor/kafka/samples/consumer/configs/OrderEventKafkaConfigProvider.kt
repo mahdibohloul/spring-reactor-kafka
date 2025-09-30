@@ -57,7 +57,6 @@ class OrderEventKafkaConfigProvider(
     return Mono.just(
       KafkaReceiverConfiguration(
         receiverOption = receiverOptions,
-        scheduler = Schedulers.boundedElastic(),
         name = "order-events-receiver"
       )
     )
