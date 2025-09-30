@@ -14,21 +14,19 @@ class SpringReactorKafkaSamplesApplication {
   private val logger = LoggerFactory.getLogger(SpringReactorKafkaSamplesApplication::class.java)
 
   @Bean
-  fun commandLineRunner(kafkaProducerService: KafkaProducerService): CommandLineRunner {
-    return CommandLineRunner {
-      logger.info("🚀 Spring Reactor Kafka Samples Application started!")
-      logger.info("📡 Kafka consumers are now listening for messages...")
-      logger.info("🌐 REST API available at: http://localhost:8080/api/samples")
-      logger.info("❤️  Health check available at: http://localhost:8080/api/samples/health")
-      logger.info("📊 Actuator endpoints available at: http://localhost:8080/actuator")
-      logger.info("")
-      logger.info("📋 Available topics:")
-      logger.info("   - user-events")
-      logger.info("   - order-events") 
-      logger.info("   - notification-events")
-      logger.info("")
-      logger.info("💡 Use the REST API to send test messages to these topics!")
-    }
+  fun commandLineRunner(kafkaProducerService: KafkaProducerService): CommandLineRunner = CommandLineRunner {
+    logger.info("🚀 Spring Reactor Kafka Samples Application started!")
+    logger.info("📡 Kafka consumers are now listening for messages...")
+    logger.info("🌐 REST API available at: http://localhost:8080/api/samples")
+    logger.info("❤️  Health check available at: http://localhost:8080/api/samples/health")
+    logger.info("📊 Actuator endpoints available at: http://localhost:8080/actuator")
+    logger.info("")
+    logger.info("📋 Available topics:")
+    logger.info("   - user-events")
+    logger.info("   - order-events")
+    logger.info("   - notification-events")
+    logger.info("")
+    logger.info("💡 Use the REST API to send test messages to these topics!")
   }
 
   @PreDestroy

@@ -2,6 +2,11 @@ plugins {
   kotlin("jvm") version "1.9.25"
   kotlin("plugin.spring") version "1.9.25"
   id("io.spring.dependency-management") version "1.1.7"
+
+  id("com.vanniktech.maven.publish") version "0.34.0"
+  id("com.diffplug.spotless") version "7.2.1"
+  id("io.gitlab.arturbosch.detekt") version "1.23.6"
+
   `java-library`
 }
 
@@ -39,6 +44,7 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.5")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.23")
   testImplementation("io.projectreactor:reactor-test:3.7.9")
+  testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
 
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
@@ -52,3 +58,92 @@ kotlin {
 tasks.withType<Test> {
   useJUnitPlatform()
 }
+
+
+mavenPublishing {
+  publishToMavenCentral()
+  signAllPublications()
+
+  pom {
+    name.set("spring-reactor-kafka")
+    description.set("Spring Reactor Kafka integration library")
+    url.set("https://github.com/mahdibohloul/spring-reactor-kafka")
+    licenses {
+      license {
+        name.set("MIT License")
+        url.set("https://opensource.org/licenses/MIT")
+        distribution.set("repo")
+      }
+    }
+    developers {
+      developer {
+        id.set("mahdibohloul")
+        name.set("Mahdi Bohloul")
+        email.set("mahdiibohloul@gmail.com")
+        url.set("https://github.com/mahdibohloul/")
+      }
+    }
+    scm {
+      url.set("https://github.com/mahdibohloul/spring-reactor-kafka")
+    }
+  }
+}
+
+spotless {
+  kotlin {
+    target("src/**/*.kt", "spring-reactor-kafka-samples/src/**/*.kt")
+    ktlint()
+      .editorConfigOverride(
+        mapOf(
+          "indent_size" to 2,
+          "ktlint_standard_filename" to "disabled",
+          "ktlint_standard_max-line-length" to "120"
+        )
+      )
+    trimTrailingWhitespace()
+    leadingTabsToSpaces()
+    endWithNewline()
+  }
+}
+
+detekt {
+  buildUponDefaultConfig = true
+  allRules = true
+  config.setFrom("$projectDir/detekt.yml")
+  baseline = file("$projectDir/detekt-baseline.xml")
+}
+
+tasks.register("verifyReadmeContent") {
+  doLast {
+    val readmeFile = file("README.md")
+    val content = readmeFile.readText()
+
+    // List of checks
+    val checks = listOf(
+      Check("group ID", """<groupId>${project.group}</groupId>"""),
+      Check("version", """<version>${project.version}</version>"""),
+    )
+
+    val errors = checks.mapNotNull { check ->
+      if (!content.contains(check.expectedValue)) {
+        "Missing or incorrect ${check.name}: ${check.expectedValue}"
+      } else null
+    }
+
+    if (errors.isNotEmpty()) {
+      throw GradleException(
+        """
+                README content verification failed!
+                ${errors.joinToString("\n")}
+                Please update the README.md with correct values
+            """.trimIndent()
+      )
+    }
+  }
+}
+
+//tasks.check {
+//  dependsOn("verifyReadmeContent")
+//}
+
+data class Check(val name: String, val expectedValue: String)

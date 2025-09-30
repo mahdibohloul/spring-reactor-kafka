@@ -1,8 +1,8 @@
 package io.github.mahdibohloul.spring.reactor.kafka.consumer.annotaitons
 
+import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfiguration
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfigurationProvider
 import kotlin.reflect.KClass
-import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfiguration
 
 /**
  * Marks a method as a reactive Kafka message listener in a Spring Boot application.

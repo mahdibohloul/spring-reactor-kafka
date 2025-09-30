@@ -1,7 +1,5 @@
 package io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.controllers
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfiguration
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.annotaitons.KafkaController
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.annotaitons.ReactiveKafkaListener
@@ -25,10 +23,10 @@ class UserEventKafkaController {
   @ReactiveKafkaListener(configurationProvider = UserEventKafkaConfigProvider::class)
   fun handleUserEvents(
     receiver: KafkaReceiver<String, UserEvent>,
-    config: KafkaReceiverConfiguration<String, UserEvent>
+    config: KafkaReceiverConfiguration<String, UserEvent>,
   ): Mono<Void> {
     logger.info("Starting UserEvent consumer with configuration: ${config.name}")
-    
+
     return receiver.receive()
       .publishOn(Schedulers.boundedElastic())
       .doOnNext { record ->
@@ -48,7 +46,7 @@ class UserEventKafkaController {
     try {
       val userEvent = record.value()
       logger.info("Processing UserEvent: userId=${userEvent.userId}, eventType=${userEvent.eventType}, email=${userEvent.email}")
-      
+
       // Simulate some business logic based on event type
       when (userEvent.eventType) {
         UserEventType.USER_CREATED -> {
@@ -72,10 +70,9 @@ class UserEventKafkaController {
           // Update session info, cleanup temporary data, etc.
         }
       }
-      
+
       // Commit the offset after successful processing
       record.receiverOffset().acknowledge()
-      
     } catch (e: Exception) {
       logger.error("Error processing UserEvent: ${record.value()}", e)
       // In a real application, you might want to send to a dead letter queue
@@ -83,4 +80,3 @@ class UserEventKafkaController {
     }
   }
 }
-

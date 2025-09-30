@@ -12,7 +12,6 @@ import io.github.mahdibohloul.spring.reactor.kafka.consumer.validators.ListenerM
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.validators.ListenerMethodParameterTypeKafkaReceiverValidator
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.validators.ListenerMethodReturnTypeValidator
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.validators.ReactiveKafkaListenerAnnotationPresenceValidator
-import java.lang.reflect.Method
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.core.annotation.AnnotationUtils
@@ -22,6 +21,7 @@ import reactor.kafka.receiver.KafkaReceiver
 import reactor.kotlin.core.publisher.toMono
 import reactor.kotlin.core.util.function.component1
 import reactor.kotlin.core.util.function.component2
+import java.lang.reflect.Method
 
 @Service
 @OnKafkaConsumerEnabled
@@ -59,7 +59,7 @@ class KafkaConsumerServiceImpl(
     method: Method,
     bean: Any,
     kafkaReceiver: KafkaReceiver<*, *>,
-    configuration: KafkaReceiverConfiguration<*, *>
+    configuration: KafkaReceiverConfiguration<*, *>,
   ) {
     Mono.defer {
       method.invoke(bean, kafkaReceiver, configuration) as Mono<Void>
@@ -79,14 +79,13 @@ class KafkaConsumerServiceImpl(
     return applicationContext.getBean(annotation.configurationProvider.java)
   }
 
-  private fun validateAndIgnore(method: Method): Mono<Method> =
-    validators.validate(method).thenReturn(method)
-      .doOnNext {
-        logger.info("Method \"${it.name}\" validated successfully")
-      }.doOnError {
-        logger.error("Method \"${method.name}\" validation failed", it)
-      }
-      .onErrorResume(KafkaConsumerException.KafkaConsumerInitializationException::class.java) {
-        return@onErrorResume Mono.empty()
-      }
+  private fun validateAndIgnore(method: Method): Mono<Method> = validators.validate(method).thenReturn(method)
+    .doOnNext {
+      logger.info("Method \"${it.name}\" validated successfully")
+    }.doOnError {
+      logger.error("Method \"${method.name}\" validation failed", it)
+    }
+    .onErrorResume(KafkaConsumerException.KafkaConsumerInitializationException::class.java) {
+      return@onErrorResume Mono.empty()
+    }
 }

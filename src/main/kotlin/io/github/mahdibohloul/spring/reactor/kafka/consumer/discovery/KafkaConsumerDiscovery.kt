@@ -8,6 +8,7 @@ import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.ApplicationContext
 import org.springframework.core.annotation.AnnotationUtils
 
+@Suppress("detekt.TooGenericExceptionCaught")
 class KafkaConsumerDiscovery(
   private val applicationContext: ApplicationContext,
   private val kafkaConsumerService: KafkaConsumerService,

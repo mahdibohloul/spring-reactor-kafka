@@ -29,20 +29,19 @@ data class NotificationEvent(
   val timestamp: LocalDateTime = LocalDateTime.now(),
 
   @JsonProperty("metadata")
-  val metadata: Map<String, Any> = emptyMap()
+  val metadata: Map<String, Any> = emptyMap(),
 )
 
 enum class NotificationType {
   EMAIL,
   SMS,
   PUSH,
-  IN_APP
+  IN_APP,
 }
 
 enum class NotificationPriority {
   LOW,
   MEDIUM,
   HIGH,
-  URGENT
+  URGENT,
 }
-

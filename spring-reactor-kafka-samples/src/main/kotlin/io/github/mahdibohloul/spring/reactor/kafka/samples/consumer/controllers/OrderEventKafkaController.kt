@@ -1,7 +1,5 @@
 package io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.controllers
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfiguration
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.annotaitons.KafkaController
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.annotaitons.ReactiveKafkaListener
@@ -24,10 +22,10 @@ class OrderEventKafkaController {
   @ReactiveKafkaListener(configurationProvider = OrderEventKafkaConfigProvider::class)
   fun handleOrderEvents(
     receiver: KafkaReceiver<String, OrderEvent>,
-    config: KafkaReceiverConfiguration<String, OrderEvent>
+    config: KafkaReceiverConfiguration<String, OrderEvent>,
   ): Mono<Void> {
     logger.info("Starting OrderEvent consumer with configuration: ${config.name}")
-    
+
     return receiver.receive()
       .doOnNext { record ->
         logger.info("Received OrderEvent: partition=${record.partition()}, offset=${record.offset()}, key=${record.key()}")
@@ -46,7 +44,7 @@ class OrderEventKafkaController {
     try {
       val orderEvent = record.value()
       logger.info("Processing OrderEvent: orderId=${orderEvent.orderId}, eventType=${orderEvent.eventType}, totalAmount=${orderEvent.totalAmount}")
-      
+
       // Simulate some business logic based on event type
       when (orderEvent.eventType) {
         OrderEventType.ORDER_CREATED -> {
@@ -74,15 +72,14 @@ class OrderEventKafkaController {
           // Process refund, update financial records, etc.
         }
       }
-      
+
       // Log order items for detailed processing
       orderEvent.items.forEach { item ->
         logger.debug("Order item: ${item.productName} (${item.productId}) - Qty: ${item.quantity}, Price: ${item.unitPrice}")
       }
-      
+
       // Commit the offset after successful processing
       record.receiverOffset().acknowledge()
-      
     } catch (e: Exception) {
       logger.error("Error processing OrderEvent: ${record.value()}", e)
       // In a real application, you might want to send to a dead letter queue
@@ -90,4 +87,3 @@ class OrderEventKafkaController {
     }
   }
 }
-

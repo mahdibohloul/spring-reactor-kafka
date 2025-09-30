@@ -26,7 +26,7 @@ data class UserEvent(
   val timestamp: LocalDateTime = LocalDateTime.now(),
 
   @JsonProperty("metadata")
-  val metadata: Map<String, Any> = emptyMap()
+  val metadata: Map<String, Any> = emptyMap(),
 )
 
 enum class UserEventType {
@@ -34,6 +34,5 @@ enum class UserEventType {
   USER_UPDATED,
   USER_DELETED,
   USER_LOGIN,
-  USER_LOGOUT
+  USER_LOGOUT,
 }
-

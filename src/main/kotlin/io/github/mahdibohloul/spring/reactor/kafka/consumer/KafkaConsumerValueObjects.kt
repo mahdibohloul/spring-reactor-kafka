@@ -1,6 +1,5 @@
 package io.github.mahdibohloul.spring.reactor.kafka.consumer
 
-import reactor.core.scheduler.Scheduler
 import reactor.kafka.receiver.ReceiverOptions
 
 /**

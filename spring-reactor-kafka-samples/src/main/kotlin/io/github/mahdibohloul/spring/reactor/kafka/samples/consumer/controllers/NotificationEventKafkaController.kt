@@ -1,7 +1,5 @@
 package io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.controllers
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfiguration
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.annotaitons.KafkaController
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.annotaitons.ReactiveKafkaListener
@@ -25,10 +23,10 @@ class NotificationEventKafkaController {
   @ReactiveKafkaListener(configurationProvider = NotificationEventKafkaConfigProvider::class)
   fun handleNotificationEvents(
     receiver: KafkaReceiver<String, NotificationEvent>,
-    config: KafkaReceiverConfiguration<String, NotificationEvent>
+    config: KafkaReceiverConfiguration<String, NotificationEvent>,
   ): Mono<Void> {
     logger.info("Starting NotificationEvent consumer with configuration: ${config.name}")
-    
+
     return receiver.receive()
       .doOnNext { record ->
         logger.info("Received NotificationEvent: partition=${record.partition()}, offset=${record.offset()}, key=${record.key()}")
@@ -47,7 +45,7 @@ class NotificationEventKafkaController {
     try {
       val notificationEvent = record.value()
       logger.info("Processing NotificationEvent: notificationId=${notificationEvent.notificationId}, type=${notificationEvent.type}, priority=${notificationEvent.priority}")
-      
+
       // Simulate notification processing based on type and priority
       when (notificationEvent.type) {
         NotificationType.EMAIL -> {
@@ -71,7 +69,7 @@ class NotificationEventKafkaController {
           simulateInAppNotification(notificationEvent)
         }
       }
-      
+
       // Handle priority-based processing
       when (notificationEvent.priority) {
         NotificationPriority.URGENT -> {
@@ -84,10 +82,9 @@ class NotificationEventKafkaController {
           logger.debug("Standard priority notification processed: ${notificationEvent.notificationId}")
         }
       }
-      
+
       // Commit the offset after successful processing
       record.receiverOffset().acknowledge()
-      
     } catch (e: Exception) {
       logger.error("Error processing NotificationEvent: ${record.value()}", e)
       // In a real application, you might want to send to a dead letter queue
@@ -115,4 +112,3 @@ class NotificationEventKafkaController {
     logger.info("   Message: ${notification.message}")
   }
 }
-

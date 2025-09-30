@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
 import reactor.kafka.receiver.ReceiverOptions
 
 /**
@@ -21,12 +20,12 @@ import reactor.kafka.receiver.ReceiverOptions
 class OrderEventKafkaConfigProvider(
   @Value("\${kafka.bootstrap-servers:localhost:9092}")
   private val bootstrapServers: String,
-  
+
   @Value("\${kafka.order-events.topic:order-events}")
   private val topic: String,
-  
+
   @Value("\${kafka.order-events.group-id:order-events-consumer-group}")
-  private val groupId: String
+  private val groupId: String,
 ) : KafkaReceiverConfigurationProvider<String, OrderEvent> {
 
   private val objectMapper = ObjectMapper().apply {
@@ -41,7 +40,7 @@ class OrderEventKafkaConfigProvider(
       ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
       ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
       ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to "false",
-      ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "5"
+      ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "5",
     )
 
     val receiverOptions = ReceiverOptions.create<String, OrderEvent>(consumerProps)
@@ -57,9 +56,8 @@ class OrderEventKafkaConfigProvider(
     return Mono.just(
       KafkaReceiverConfiguration(
         receiverOption = receiverOptions,
-        name = "order-events-receiver"
-      )
+        name = "order-events-receiver",
+      ),
     )
   }
 }
-

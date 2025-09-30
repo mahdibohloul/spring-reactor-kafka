@@ -4,11 +4,11 @@ import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfigu
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.keyType
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.topics
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.valueType
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentMap
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import reactor.kafka.receiver.KafkaReceiver
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentMap
 
 @Component
 class KafkaReceiverFactory {
@@ -34,8 +34,9 @@ class KafkaReceiverFactory {
     )
   }
 
-  private fun computeKafkaReceiverName(configuration: KafkaReceiverConfiguration<*, *>): String =
-    KAFKA_RECEIVER_NAME_FORMAT.format(configuration.name)
+  private fun computeKafkaReceiverName(
+    configuration: KafkaReceiverConfiguration<*, *>,
+  ): String = KAFKA_RECEIVER_NAME_FORMAT.format(configuration.name)
 
   companion object {
     private const val KAFKA_RECEIVER_NAME_FORMAT = "KafkaReceiver-%s"

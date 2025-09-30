@@ -30,21 +30,21 @@ data class OrderEvent(
   val timestamp: LocalDateTime = LocalDateTime.now(),
 
   @JsonProperty("metadata")
-  val metadata: Map<String, Any> = emptyMap()
+  val metadata: Map<String, Any> = emptyMap(),
 )
 
 data class OrderItem(
   @JsonProperty("productId")
   val productId: String,
-  
+
   @JsonProperty("productName")
   val productName: String,
-  
+
   @JsonProperty("quantity")
   val quantity: Int,
-  
+
   @JsonProperty("unitPrice")
-  val unitPrice: BigDecimal
+  val unitPrice: BigDecimal,
 )
 
 enum class OrderEventType {
@@ -53,6 +53,5 @@ enum class OrderEventType {
   ORDER_SHIPPED,
   ORDER_DELIVERED,
   ORDER_CANCELLED,
-  ORDER_REFUNDED
+  ORDER_REFUNDED,
 }
-

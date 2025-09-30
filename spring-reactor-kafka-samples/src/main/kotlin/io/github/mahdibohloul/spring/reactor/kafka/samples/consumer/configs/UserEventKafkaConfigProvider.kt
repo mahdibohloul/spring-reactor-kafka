@@ -8,11 +8,10 @@ import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.models.UserE
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
 import reactor.kafka.receiver.ReceiverOptions
-import org.springframework.kafka.support.serializer.JsonDeserializer
 
 /**
  * Configuration provider for UserEvent Kafka consumer.
@@ -21,12 +20,12 @@ import org.springframework.kafka.support.serializer.JsonDeserializer
 class UserEventKafkaConfigProvider(
   @Value("\${kafka.bootstrap-servers:localhost:9092}")
   private val bootstrapServers: String,
-  
+
   @Value("\${kafka.user-events.topic:user-events}")
   private val topic: String,
-  
+
   @Value("\${kafka.user-events.group-id:user-events-consumer-group}")
-  private val groupId: String
+  private val groupId: String,
 ) : KafkaReceiverConfigurationProvider<String, UserEvent> {
 
   private val objectMapper = ObjectMapper().apply {
@@ -41,7 +40,7 @@ class UserEventKafkaConfigProvider(
       ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
       ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
       ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to "false",
-      ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "10"
+      ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "10",
     )
 
     val receiverOptions = ReceiverOptions.create<String, UserEvent>(consumerProps)
@@ -57,9 +56,8 @@ class UserEventKafkaConfigProvider(
     return Mono.just(
       KafkaReceiverConfiguration(
         receiverOption = receiverOptions,
-        name = "user-events-receiver"
-      )
+        name = "user-events-receiver",
+      ),
     )
   }
 }
-

@@ -7,10 +7,10 @@ import io.github.mahdibohloul.spring.reactor.kafka.consumer.validators.ListenerM
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.validators.ListenerMethodParameterTypeKafkaReceiverValidator
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.validators.ListenerMethodReturnTypeValidator
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.validators.ReactiveKafkaListenerAnnotationPresenceValidator
-import java.lang.reflect.Method
 import org.slf4j.Logger
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.stereotype.Service
+import java.lang.reflect.Method
 
 @Service
 @ConditionalOnMissingBean(KafkaConsumerServiceImpl::class)

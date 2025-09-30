@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
 import reactor.kafka.receiver.ReceiverOptions
 
 /**
@@ -26,7 +25,7 @@ class NotificationEventKafkaConfigProvider(
   private val topic: String,
 
   @Value("\${kafka.notification-events.group-id:notification-events-consumer-group}")
-  private val groupId: String
+  private val groupId: String,
 ) : KafkaReceiverConfigurationProvider<String, NotificationEvent> {
 
   private val objectMapper = ObjectMapper().apply {
@@ -41,7 +40,7 @@ class NotificationEventKafkaConfigProvider(
       ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
       ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
       ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to "false",
-      ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "20"
+      ConsumerConfig.MAX_POLL_RECORDS_CONFIG to "20",
     )
 
     val receiverOptions = ReceiverOptions.create<String, NotificationEvent>(consumerProps)
@@ -57,9 +56,8 @@ class NotificationEventKafkaConfigProvider(
     return Mono.just(
       KafkaReceiverConfiguration(
         receiverOption = receiverOptions,
-        name = "notification-events-receiver"
-      )
+        name = "notification-events-receiver",
+      ),
     )
   }
 }
-
