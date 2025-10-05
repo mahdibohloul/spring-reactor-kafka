@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfiguration
 import io.github.mahdibohloul.spring.reactor.kafka.consumer.KafkaReceiverConfigurationProvider
 import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.models.OrderEvent
+import io.github.mahdibohloul.spring.reactor.kafka.samples.topics.SampleKafkaTopics
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.beans.factory.annotation.Value
@@ -12,6 +13,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
 import reactor.kafka.receiver.ReceiverOptions
+import java.util.Collections
 
 /**
  * Configuration provider for OrderEvent Kafka consumer.
@@ -20,9 +22,6 @@ import reactor.kafka.receiver.ReceiverOptions
 class OrderEventKafkaConfigProvider(
   @Value("\${kafka.bootstrap-servers:localhost:9092}")
   private val bootstrapServers: String,
-
-  @Value("\${kafka.order-events.topic:order-events}")
-  private val topic: String,
 
   @Value("\${kafka.order-events.group-id:order-events-consumer-group}")
   private val groupId: String,
@@ -44,8 +43,8 @@ class OrderEventKafkaConfigProvider(
     )
 
     val receiverOptions = ReceiverOptions.create<String, OrderEvent>(consumerProps)
-      .withValueDeserializer(JsonDeserializer(objectMapper))
-      .subscription(listOf(topic))
+      .withValueDeserializer(JsonDeserializer(OrderEvent::class.java, objectMapper))
+      .subscription(Collections.singleton(SampleKafkaTopics.OrderEvents.topicName))
       .addAssignListener { partitions ->
         println("OrderEvent consumer assigned partitions: $partitions")
       }

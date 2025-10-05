@@ -1,9 +1,9 @@
-package io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.controllers
+package io.github.mahdibohloul.spring.reactor.kafka.samples.controllers
 
 import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.models.NotificationType
 import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.models.OrderEventType
 import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.models.UserEventType
-import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.services.KafkaProducerService
+import io.github.mahdibohloul.spring.reactor.kafka.samples.producer.services.KafkaProducerService
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

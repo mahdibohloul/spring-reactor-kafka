@@ -1,6 +1,6 @@
-package io.github.mahdibohloul.spring.reactor.kafka.samples.consumer
+package io.github.mahdibohloul.spring.reactor.kafka.samples
 
-import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.services.KafkaProducerService
+import io.github.mahdibohloul.spring.reactor.kafka.samples.producer.services.KafkaProducerService
 import jakarta.annotation.PreDestroy
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
