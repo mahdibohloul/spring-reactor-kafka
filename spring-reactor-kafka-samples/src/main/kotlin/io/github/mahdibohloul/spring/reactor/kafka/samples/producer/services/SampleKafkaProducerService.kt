@@ -26,7 +26,7 @@ import java.time.LocalDateTime
  * Service for producing Kafka messages for testing purposes.
  */
 @Service("sampleKafkaProducerService")
-class KafkaProducerService(
+class SampleKafkaProducerService(
   private val mediator: Mediator,
 ) {
   fun sendUserEvent(userEvent: UserEvent): Mono<Void> = mono {
