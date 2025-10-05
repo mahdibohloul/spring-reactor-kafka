@@ -1,2 +1,3 @@
 io.github.mahdibohloul.spring.reactor.kafka.autoconfigure.ReactiveKafkaAutoConfiguration
 io.github.mahdibohloul.spring.reactor.kafka.consumer.autoconfigure.ReactorKafkaConsumerAutoConfiguration
+io.github.mahdibohloul.spring.reactor.kafka.producer.autoconfigure.ReactorKafkaProducerAutoConfiguration
