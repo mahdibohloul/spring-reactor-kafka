@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import
 
 @EnableConfigurationProperties(ProducerProperties::class)
 @AutoConfiguration(after = [ReactiveKafkaAutoConfiguration::class])
-@Import(ProducerProperties::class, KafkaPublisher::class)
+@Import(KafkaPublisher::class)
 class ReactorKafkaProducerAutoConfiguration {
   @Bean
   @OnKafkaProducerEnabled

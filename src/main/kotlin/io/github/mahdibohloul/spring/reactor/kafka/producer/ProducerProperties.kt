@@ -5,5 +5,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 @ConfigurationProperties("reactor.kafka.producer")
 data class ProducerProperties(
   val enabled: Boolean = false,
-  val threadCount: Int = 2,
 )
