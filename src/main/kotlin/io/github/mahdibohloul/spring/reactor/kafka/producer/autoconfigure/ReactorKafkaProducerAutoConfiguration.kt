@@ -3,6 +3,7 @@ package io.github.mahdibohloul.spring.reactor.kafka.producer.autoconfigure
 import io.github.mahdibohloul.spring.reactor.kafka.autoconfigure.ReactiveKafkaAutoConfiguration
 import io.github.mahdibohloul.spring.reactor.kafka.producer.ProducerProperties
 import io.github.mahdibohloul.spring.reactor.kafka.producer.annotations.OnKafkaProducerEnabled
+import io.github.mahdibohloul.spring.reactor.kafka.producer.commands.dispatchers.KafkaDispatcher
 import io.github.mahdibohloul.spring.reactor.kafka.producer.pubsub.publishers.KafkaPublisher
 import io.github.mahdibohloul.spring.reactor.kafka.producer.services.KafkaProducerService
 import io.github.mahdibohloul.spring.reactor.kafka.producer.services.KafkaProducerServiceImpl
@@ -16,7 +17,7 @@ import org.springframework.context.annotation.Import
 
 @EnableConfigurationProperties(ProducerProperties::class)
 @AutoConfiguration(after = [ReactiveKafkaAutoConfiguration::class])
-@Import(KafkaPublisher::class)
+@Import(KafkaPublisher::class, KafkaDispatcher::class)
 class ReactorKafkaProducerAutoConfiguration {
   @Bean
   @OnKafkaProducerEnabled
