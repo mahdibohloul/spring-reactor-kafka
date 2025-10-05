@@ -3,7 +3,6 @@ package io.github.mahdibohloul.spring.reactor.kafka.producer.services
 import io.github.mahdibohloul.spring.reactor.kafka.producer.KafkaSenderConfigurationProvider
 import io.github.mahdibohloul.spring.reactor.kafka.producer.KafkaTopic
 import io.github.mahdibohloul.spring.reactor.kafka.producer.generators.KeyGenerator
-import kotlin.reflect.KClass
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.header.internals.RecordHeader
 import org.springframework.context.ApplicationContext
@@ -13,6 +12,7 @@ import reactor.core.publisher.Mono
 import reactor.kafka.sender.SenderResult
 import reactor.kotlin.core.util.function.component1
 import reactor.kotlin.core.util.function.component2
+import kotlin.reflect.KClass
 
 class KafkaProducerServiceImpl(
   private val applicationContext: ApplicationContext,

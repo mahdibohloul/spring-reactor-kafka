@@ -4,16 +4,13 @@ import io.github.mahdibohloul.spring.reactor.kafka.producer.KafkaSenderConfigura
 import io.github.mahdibohloul.spring.reactor.kafka.producer.KafkaTopic
 import io.github.mahdibohloul.spring.reactor.kafka.producer.generators.KeyGenerator
 import org.apache.kafka.clients.producer.RecordMetadata
-import org.slf4j.Logger
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.slf4j.LoggerFactory
 import org.springframework.messaging.Message
-import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.kafka.sender.SenderResult
 import reactor.kotlin.core.publisher.toMono
 import java.lang.Exception
 import kotlin.reflect.KClass
-import org.slf4j.LoggerFactory
 
 class KafkaProducerServiceMockImpl : KafkaProducerService {
   private val logger = LoggerFactory.getLogger(this::class.java)

@@ -20,11 +20,11 @@ import org.springframework.context.annotation.Import
 class ReactorKafkaProducerAutoConfiguration {
   @Bean
   @OnKafkaProducerEnabled
-  fun kafkaProducerService(applicationContext: ApplicationContext): KafkaProducerService =
-    KafkaProducerServiceImpl(applicationContext)
+  fun kafkaProducerService(
+    applicationContext: ApplicationContext,
+  ): KafkaProducerService = KafkaProducerServiceImpl(applicationContext)
 
   @Bean
   @ConditionalOnMissingBean(KafkaProducerServiceImpl::class)
-  fun mockKafkaProducerService(): KafkaProducerService =
-    KafkaProducerServiceMockImpl()
+  fun mockKafkaProducerService(): KafkaProducerService = KafkaProducerServiceMockImpl()
 }
