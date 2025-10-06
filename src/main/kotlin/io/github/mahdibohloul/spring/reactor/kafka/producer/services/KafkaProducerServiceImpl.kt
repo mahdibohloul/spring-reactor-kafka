@@ -14,6 +14,20 @@ import reactor.kotlin.core.util.function.component1
 import reactor.kotlin.core.util.function.component2
 import kotlin.reflect.KClass
 
+/**
+ * Implementation of [KafkaProducerService] for sending messages to Kafka topics in a reactive manner.
+ *
+ * This class provides the functionality to dynamically generate message keys, resolve appropriate
+ * Kafka sender templates, and send messages asynchronously to specified topics.
+ *
+ * The implementation uses the Spring ApplicationContext to dynamically retrieve instances of key generators
+ * and sender configuration providers, ensuring flexibility and decoupling of dependencies.
+ *
+ * @constructor Creates an instance of [KafkaProducerServiceImpl].
+ * @param applicationContext The Spring ApplicationContext used for retrieving key generator and
+ *                            sender configuration provider beans.
+ * @see KafkaProducerServiceMockImpl
+ */
 class KafkaProducerServiceImpl(
   private val applicationContext: ApplicationContext,
 ) : KafkaProducerService {

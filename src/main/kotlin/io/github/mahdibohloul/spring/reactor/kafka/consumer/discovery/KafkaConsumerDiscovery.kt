@@ -8,6 +8,24 @@ import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.ApplicationContext
 import org.springframework.core.annotation.AnnotationUtils
 
+/**
+ * Handles the discovery and registration of Kafka controllers and listener methods annotated with
+ * [ReactiveKafkaListener]. This class is responsible for scanning the Spring application context for all beans
+ * annotated with [KafkaController], identifying listener methods within those beans, and registering them via the
+ * [KafkaConsumerService].
+ *
+ * This class ensures that:
+ * 1. All methods annotated with [ReactiveKafkaListener] in Kafka controllers are discovered.
+ * 2. Each listener method is validated and registered with the help of `KafkaConsumerService`.
+ * 3. Any errors during the discovery or registration process
+ * are logged and propagated as part of the initialization phase.
+ *
+ * Implements [InitializingBean] to automatically trigger Kafka consumer auto-configuration during application startup.
+ *
+ * @constructor Creates a `KafkaConsumerDiscovery` instance, requiring:
+ * - `applicationContext`: The Spring application context used to retrieve beans annotated with [KafkaController].
+ * - `kafkaConsumerService`: The service responsible for registering discovered Kafka listener methods.
+ */
 @Suppress("detekt.TooGenericExceptionCaught")
 class KafkaConsumerDiscovery(
   private val applicationContext: ApplicationContext,
