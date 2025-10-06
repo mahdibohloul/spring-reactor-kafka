@@ -1,6 +1,9 @@
 # Spring Reactor Kafka
 
-License: MIT Maven Central Kotlin Spring Boot
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.9.23-blue.svg)](https://kotlinlang.org)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.mahdibohloul/spring-reactor-kafka)](https://search.maven.org/artifact/io.github.mahdibohloul/spring-reactor-kafka)
 
 A reactive, Spring Boot–friendly toolkit for building Kafka consumers and producers using Project Reactor. This library
 provides annotation-driven consumer discovery, type-safe configuration providers, and seamless producer integration. It
@@ -36,7 +39,7 @@ coroutine-friendly way.
 <dependency>
     <groupId>io.github.mahdibohloul</groupId>
     <artifactId>spring-reactor-kafka</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.9.0</version>
 </dependency>
 ```
 
