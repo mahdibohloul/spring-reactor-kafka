@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.github.mahdibohloul"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.3-SNAPSHOT"
 description = "spring-reactor-kafka"
 
 java {
@@ -148,8 +148,8 @@ tasks.register("verifyReadmeContent") {
   }
 }
 
-//tasks.check {
-//  dependsOn("verifyReadmeContent")
-//}
+tasks.check {
+  dependsOn("verifyReadmeContent")
+}
 
 data class Check(val name: String, val expectedValue: String)
