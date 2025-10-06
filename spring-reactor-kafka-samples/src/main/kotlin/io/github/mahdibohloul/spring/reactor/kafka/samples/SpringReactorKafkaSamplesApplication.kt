@@ -1,6 +1,6 @@
-package io.github.mahdibohloul.spring.reactor.kafka.samples.consumer
+package io.github.mahdibohloul.spring.reactor.kafka.samples
 
-import io.github.mahdibohloul.spring.reactor.kafka.samples.consumer.services.KafkaProducerService
+import io.github.mahdibohloul.spring.reactor.kafka.samples.producer.services.SampleKafkaProducerService
 import jakarta.annotation.PreDestroy
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
@@ -14,7 +14,7 @@ class SpringReactorKafkaSamplesApplication {
   private val logger = LoggerFactory.getLogger(SpringReactorKafkaSamplesApplication::class.java)
 
   @Bean
-  fun commandLineRunner(kafkaProducerService: KafkaProducerService): CommandLineRunner = CommandLineRunner {
+  fun commandLineRunner(kafkaProducerService: SampleKafkaProducerService): CommandLineRunner = CommandLineRunner {
     logger.info("🚀 Spring Reactor Kafka Samples Application started!")
     logger.info("📡 Kafka consumers are now listening for messages...")
     logger.info("🌐 REST API available at: http://localhost:8080/api/samples")

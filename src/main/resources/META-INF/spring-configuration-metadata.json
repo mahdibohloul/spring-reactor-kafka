@@ -1,0 +1,33 @@
+{
+  "groups": [
+    {
+      "name": "reactor.kafka.consumer",
+      "type": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties",
+      "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties",
+      "description": "Spring Reactor Kafka consumer settings."
+    },
+    {
+      "name": "reactor.kafka.producer",
+      "type": "io.github.mahdibohloul.spring.reactor.kafka.producer.ProducerProperties",
+      "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.producer.ProducerProperties",
+      "description": "Spring Reactor Kafka producer settings."
+    }
+  ],
+  "properties": [
+    {
+      "name": "reactor.kafka.consumer.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties",
+      "defaultValue": false,
+      "description": "Enable or disable the Reactor Kafka consumer infrastructure and auto-discovery of @KafkaController listeners."
+    },
+    {
+      "name": "reactor.kafka.producer.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.producer.ProducerProperties",
+      "defaultValue": false,
+      "description": "Enable or disable the Reactor Kafka producer infrastructure and producer service beans."
+    }
+  ]
+}
+

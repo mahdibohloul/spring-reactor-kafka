@@ -41,6 +41,8 @@ dependencies {
   implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
   implementation("io.projectreactor.addons:reactor-extra")
   implementation("io.projectreactor.kafka:reactor-kafka:1.3.24")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.1")
+  implementation("io.github.mahdibohloul:kpring-mediatr-starter:2.0.1")
 
   // Testing
   testImplementation("org.springframework.boot:spring-boot-starter-test")

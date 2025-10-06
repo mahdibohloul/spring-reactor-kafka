@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 @Target(AnnotationTarget.CLASS)
 @MustBeDocumented
 @ConditionalOnProperty(
-  value = ["spring.reactor.kafka.consumer.enabled"],
+  value = ["reactor.kafka.consumer.enabled"],
   havingValue = "true",
   matchIfMissing = false,
 )
