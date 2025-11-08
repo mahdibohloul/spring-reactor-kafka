@@ -32,12 +32,7 @@ class KafkaPublisher(
       }.switchIfEmpty { Mono.error(ProducerException.NotSupportedNotificationException(notification)) }
       .flatMap {
         return@flatMap when (it) {
-          is KafkaNotification<*> -> kafkaProducerService.send(
-            topic = it.topic,
-            keyGeneratorBeanClass = it.keyGeneratorBeanClass,
-            message = it.message,
-            senderConfigurationProvider = it.senderConfigurationProvider,
-          )
+          is KafkaNotification<*> -> kafkaProducerService.send(kafkaMessage = it)
 
           else -> Mono.error(ProducerException.NotSupportedNotificationException(it))
         }

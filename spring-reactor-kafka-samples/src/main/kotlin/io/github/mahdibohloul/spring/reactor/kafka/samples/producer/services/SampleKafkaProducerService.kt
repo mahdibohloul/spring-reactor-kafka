@@ -33,9 +33,9 @@ class SampleKafkaProducerService(
     mediator.publishAsync(
       KafkaNotification(
         topic = SampleKafkaTopics.UserEvents,
-        keyGeneratorBeanClass = UserEventKeyGenerator::class,
+        keyGeneratorClass = UserEventKeyGenerator::class,
         message = MessageBuilder.withPayload(userEvent).build(),
-        senderConfigurationProvider = GeneralEventKafkaSenderConfigProvider::class,
+        senderConfigurationProviderClass = GeneralEventKafkaSenderConfigProvider::class,
       ),
     )
   }.then()
@@ -44,9 +44,9 @@ class SampleKafkaProducerService(
     mediator.publishAsync(
       KafkaNotification(
         topic = SampleKafkaTopics.OrderEvents,
-        keyGeneratorBeanClass = OrderEventKeyGenerator::class,
+        keyGeneratorClass = OrderEventKeyGenerator::class,
         message = MessageBuilder.withPayload(orderEvent).build(),
-        senderConfigurationProvider = GeneralEventKafkaSenderConfigProvider::class,
+        senderConfigurationProviderClass = GeneralEventKafkaSenderConfigProvider::class,
       ),
     )
   }.then()
@@ -55,9 +55,9 @@ class SampleKafkaProducerService(
     mediator.publishAsync(
       KafkaNotification(
         topic = SampleKafkaTopics.NotificationEvents,
-        keyGeneratorBeanClass = NotificationEventKeyGenerator::class,
+        keyGeneratorClass = NotificationEventKeyGenerator::class,
         message = MessageBuilder.withPayload(notificationEvent).build(),
-        senderConfigurationProvider = GeneralEventKafkaSenderConfigProvider::class,
+        senderConfigurationProviderClass = GeneralEventKafkaSenderConfigProvider::class,
       ),
     )
   }.then()

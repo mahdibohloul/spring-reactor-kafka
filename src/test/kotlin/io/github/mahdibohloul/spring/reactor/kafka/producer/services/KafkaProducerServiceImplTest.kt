@@ -2,6 +2,7 @@ package io.github.mahdibohloul.spring.reactor.kafka.producer.services
 
 import box.tapsi.libs.utilities.fixture.FixtureHelper
 import io.github.mahdibohloul.spring.reactor.kafka.KafkaTestHelper
+import io.github.mahdibohloul.spring.reactor.kafka.producer.KafkaMessage
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,13 +38,19 @@ class KafkaProducerServiceImplTest {
     val topic = KafkaTestHelper.TestKafkaTopic.TestTopic
     val message = spy(KafkaTestHelper.Producer.TestKafkaMessage(id = fixture()))
     val senderConfigurationProvider = KafkaTestHelper.Producer.MockKafkaSenderConfigurationProvider()
+    val kafkaMessage = KafkaMessage.builder<KafkaTestHelper.Producer.TestKafkaMessage>()
+      .message(message)
+      .topic(topic)
+      .senderConfigurationProviderClass(senderConfigurationProvider::class)
+      .keyGeneratorClass(keyGenerator::class)
+      .build()
 
     // when
     whenever(applicationContext.getBean(senderConfigurationProvider::class.java))
       .thenReturn(senderConfigurationProvider)
 
     // verify
-    producerServiceImpl.send(topic, keyGenerator::class, message, senderConfigurationProvider::class)
+    producerServiceImpl.send(kafkaMessage)
       .test()
       .expectNextMatches { it.exception() == null }
       .verifyComplete()
@@ -61,13 +68,19 @@ class KafkaProducerServiceImplTest {
     val message = spy(KafkaTestHelper.Producer.TestKafkaMessage(id = fixture()))
     val exception = IllegalStateException("Kafka template error")
     val senderConfigurationProvider = KafkaTestHelper.Producer.MockKafkaSenderConfigurationProvider(false)
+    val kafkaMessage = KafkaMessage.builder<KafkaTestHelper.Producer.TestKafkaMessage>()
+      .message(message)
+      .topic(topic)
+      .senderConfigurationProviderClass(senderConfigurationProvider::class)
+      .keyGeneratorClass(keyGenerator::class)
+      .build()
 
     // when
     whenever(applicationContext.getBean(senderConfigurationProvider::class.java))
       .thenReturn(senderConfigurationProvider)
 
     // verify
-    producerServiceImpl.send(topic, keyGenerator::class, message, senderConfigurationProvider::class)
+    producerServiceImpl.send(kafkaMessage)
       .zipWith(
         Mono.delay(Duration.ofSeconds(1)).map {
           senderConfigurationProvider.mockProducer.errorNext(exception)
