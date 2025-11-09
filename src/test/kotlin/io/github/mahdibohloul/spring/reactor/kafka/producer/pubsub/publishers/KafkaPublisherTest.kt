@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
@@ -56,12 +54,7 @@ class KafkaPublisherTest {
 
     // when
     whenever(
-      kafkaProducerService.send(
-        topic = eq(notification.topic),
-        keyGeneratorBeanClass = any(),
-        message = eq(notification.message),
-        senderConfigurationProvider = any(),
-      ),
+      kafkaProducerService.send(kafkaMessage = notification),
     ).thenReturn(Mono.empty())
 
     // verify
@@ -70,11 +63,6 @@ class KafkaPublisherTest {
       .expectNextCount(1)
       .verifyComplete()
 
-    verify(kafkaProducerService, times(1)).send(
-      topic = eq(notification.topic),
-      keyGeneratorBeanClass = any(),
-      message = eq(notification.message),
-      senderConfigurationProvider = any(),
-    )
+    verify(kafkaProducerService, times(1)).send(notification)
   }
 }
