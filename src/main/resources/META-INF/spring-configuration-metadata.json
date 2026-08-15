@@ -7,6 +7,12 @@
       "description": "Spring Reactor Kafka consumer settings."
     },
     {
+      "name": "reactor.kafka.consumer.resubscribe",
+      "type": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties$Resubscribe",
+      "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties",
+      "description": "Whether, and how quickly, a listener that terminated is re-subscribed."
+    },
+    {
       "name": "reactor.kafka.producer",
       "type": "io.github.mahdibohloul.spring.reactor.kafka.producer.ProducerProperties",
       "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.producer.ProducerProperties",
@@ -20,6 +26,27 @@
       "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties",
       "defaultValue": false,
       "description": "Enable or disable the Reactor Kafka consumer infrastructure and auto-discovery of @KafkaController listeners."
+    },
+    {
+      "name": "reactor.kafka.consumer.resubscribe.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties$Resubscribe",
+      "defaultValue": true,
+      "description": "Re-subscribe a listener that terminated. When disabled, a terminated listener stays terminated for the life of the process: the failure is only logged, the process keeps running and readiness keeps passing, so the listener is silently gone until someone restarts it."
+    },
+    {
+      "name": "reactor.kafka.consumer.resubscribe.min-backoff",
+      "type": "java.time.Duration",
+      "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties$Resubscribe",
+      "defaultValue": "1s",
+      "description": "Delay before the first re-subscription attempt. Also gives the previous subscription's consumer time to close before a new one is created for the same receiver."
+    },
+    {
+      "name": "reactor.kafka.consumer.resubscribe.max-backoff",
+      "type": "java.time.Duration",
+      "sourceType": "io.github.mahdibohloul.spring.reactor.kafka.consumer.ConsumerProperties$Resubscribe",
+      "defaultValue": "30s",
+      "description": "Ceiling the exponential re-subscription backoff grows to. Re-subscription is unbounded, so this controls only how quickly a listener comes back, never whether it does."
     },
     {
       "name": "reactor.kafka.producer.enabled",

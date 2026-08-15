@@ -201,7 +201,19 @@ The producer infrastructure is activated when `reactor.kafka.producer.enabled=tr
 ## 🔧 Configuration Properties
 
 - `reactor.kafka.consumer.enabled` (Boolean, default: false)
+- `reactor.kafka.consumer.resubscribe.enabled` (Boolean, default: true)
+- `reactor.kafka.consumer.resubscribe.min-backoff` (Duration, default: 1s)
+- `reactor.kafka.consumer.resubscribe.max-backoff` (Duration, default: 30s)
 - `reactor.kafka.producer.enabled` (Boolean, default: false)
+
+A listener that terminates with an error is re-subscribed indefinitely, with exponential backoff between
+`min-backoff` and `max-backoff`. The backoff controls only how quickly it comes back, never whether it does — there is
+no attempt limit, because a finite budget on a long-lived listener is spent over the whole life of the subscription
+rather than per record, which makes it a time bomb rather than a safety limit.
+
+Set `resubscribe.enabled=false` to restore the previous behaviour, where a terminated listener stays terminated for the
+life of the process. Be aware of what that means: the failure is only logged, the process keeps running and readiness
+probes keep passing, so the listener is silently gone until someone restarts it.
 
 You should also set standard Kafka client properties (bootstrap servers, serializers, etc.) inside your configuration
 providers.

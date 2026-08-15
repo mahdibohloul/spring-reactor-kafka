@@ -17,9 +17,11 @@ import org.springframework.kafka.support.serializer.JsonSerializer
 import org.springframework.messaging.Message
 import org.springframework.messaging.MessageHeaders
 import reactor.core.publisher.Mono
+import reactor.kafka.receiver.KafkaReceiver
 import reactor.kafka.sender.SenderOptions
 import reactor.kafka.sender.internals.DefaultKafkaSender
 import reactor.kafka.sender.internals.ProducerFactory
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.random.Random
 import org.apache.kafka.clients.producer.Producer as KafkaClientsProducerProducer
 
@@ -41,6 +43,28 @@ object KafkaTestHelper {
     class TestControllerWithoutListeners {
       fun someMethod() {
         // Test implementation
+      }
+    }
+
+    /**
+     * A listener that terminates with an error on its first [failures] subscriptions and then stays
+     * alive, standing in for a receive loop killed by a transient broker fault.
+     */
+    @KafkaController
+    class FlakyKafkaController(private val failures: Int) {
+      val subscriptions = AtomicInteger()
+
+      @Suppress("detekt.UnusedParameter")
+      @ReactiveKafkaListener(EmptyKafkaReceiverConfigurationProvider::class)
+      fun handleMessage(
+        ignoredReceiver: KafkaReceiver<String, String>,
+        ignoredConfiguration: KafkaReceiverConfiguration<String, String>,
+      ): Mono<Void> = Mono.defer {
+        if (subscriptions.incrementAndGet() <= failures) {
+          Mono.error(IllegalStateException("listener terminated"))
+        } else {
+          Mono.never()
+        }
       }
     }
   }
