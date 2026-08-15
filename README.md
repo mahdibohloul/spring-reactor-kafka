@@ -39,7 +39,7 @@ coroutine-friendly way.
 <dependency>
     <groupId>io.github.mahdibohloul</groupId>
     <artifactId>spring-reactor-kafka</artifactId>
-    <version>1.0.0-RC1</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 

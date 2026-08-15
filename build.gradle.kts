@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.github.mahdibohloul"
-version = "1.0.0-RC1"
+version = "1.0.0"
 description = "spring-reactor-kafka"
 
 java {
